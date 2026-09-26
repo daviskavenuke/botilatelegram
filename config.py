@@ -68,7 +68,8 @@ class Config:
     OWNER_USER_ID: int = 5884640087
     CHANNELS: list = parse_channel_list(
         '-1003997176821,-1003968885278,-1003775651588,-1003938219620,'
-        '-1003616229345'
+        '-1003616229345,-1003906569089,-1004491010842,-1004472722181,'
+        '-1004305074434'
     )
     CHANNEL_USERNAME: str = ''
     SHARE_LINK: str = 'https://t.me/Chombezobot'
