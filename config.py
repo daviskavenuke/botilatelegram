@@ -5,9 +5,31 @@ This module handles all configuration settings for the bot,
 loading values from environment variables with sensible defaults.
 """
 
+import os
+from pathlib import Path
+
 # ============================================
 # Helpers
 # ============================================
+
+def load_env_file() -> None:
+    """Load local environment variables from the project .env file."""
+    env_path = Path(__file__).resolve().parent / '.env'
+    if not env_path.exists():
+        return
+
+    for line in env_path.read_text(encoding='utf-8').splitlines():
+        line = line.strip()
+        if not line or line.startswith('#') or '=' not in line:
+            continue
+
+        key, value = line.split('=', 1)
+        key = key.strip()
+        value = value.strip().strip("'\"")
+        os.environ.setdefault(key, value)
+
+
+load_env_file()
 
 def parse_channel_list(raw_channel_list: str) -> list:
     """
@@ -42,12 +64,11 @@ class Config:
     """
     
     # --- Required Settings ---
-    BOT_TOKEN: str = '8712766726:AAEVn978c04xtMNV6e4IyWy1Jbu65KkQdiw'
+    BOT_TOKEN: str = os.getenv('BOT_TOKEN', '')
     OWNER_USER_ID: int = 5884640087
     CHANNELS: list = parse_channel_list(
-        '-1003997176821,-1004290761330,-1003968885278,-1003775651588,'
-        '-1003938219620,-1003616229345,-1003818751718,-1003730658824,'
-        '-1003857423811'
+        '-1003997176821,-1003968885278,-1003775651588,-1003938219620,'
+        '-1003616229345'
     )
     CHANNEL_USERNAME: str = ''
     SHARE_LINK: str = 'https://t.me/Chombezobot'
